@@ -1,0 +1,48 @@
+<form #loginForm="ngForm" class="d-flex" autocomplete="off" (ngSubmit)="login()">
+    <div class="background"></div>
+        <section class="home">
+            <div class="content">
+                <h2> Hello!</h2>
+                <h3> Enter your credential to continue</h3>
+                <pre>Lorem ipsum, dolor sit amen consenter adipidg 
+                    elit, Beatae, asperious</pre>
+                <div class="icon">
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-github"></i>
+                </div>
+            </div>
+            <div class="register">
+                <h2>Sign In</h2>
+                <div class="input">
+                    <input 
+                    name="email"
+                    [(ngModel)]="model.email"
+                    class="form-control input1"
+                    type="text"
+                    placeholder="Email">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="input">
+                    <input 
+                    name="password"
+                    [(ngModel)]="model.password"
+                    class="form-control input1"
+                    type="password"
+                    placeholder="password">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div class="check">
+                    <a href="forgot-password">Forgot Password?</a>
+                </div>
+                <div class="button">
+                    <button class="btn btn-primary" type="submit">Sign in</button>
+                </div>
+                <div class="sign-in">
+                    <p> Don't have an account yet?</p>
+                    <a (click)="register()"> Sign up</a>
+                </div>
+            </div>
+        </section>
+</form>

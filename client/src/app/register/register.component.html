@@ -1,0 +1,76 @@
+<form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" class="d-flex" autocomplete="off">
+    <div class="background"></div>
+        <section class="home">
+            <div class="content">
+                <h2> Welcome!</h2>
+                <h3> To your online diary</h3>
+                <pre>Lorem ipsum, dolor sit amen consenter adipidg 
+                    elit, Beatae, asperious</pre>
+                <div class="icon">
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-github"></i>
+                </div>
+            </div>
+            <div class="register">
+                <h2>Sign Up</h2>
+                <div class="input">
+                    <input
+                    [class.is-invalid]="registerForm.get('username')?.errors && registerForm.get('username')?.touched"
+                    formControlName="username"
+                    class="form-control input1"
+                    type="text"
+                    placeholder="Username">
+                    <i class="fa-solid fa-user"></i>
+                    <div class="invalid-feedback" *ngIf="registerForm.get('username')?.hasError('required')">
+                        Please enter a username
+                    </div>
+                </div>
+                <div class="input">
+                    <input
+                    [class.is-invalid]="registerForm.get('email')?.errors && registerForm.get('email')?.touched"
+                    formControlName="email"
+                    class="form-control input1"
+                    type="text"
+                    placeholder="Email">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="invalid-feedback" *ngIf="registerForm.get('email')?.hasError('required')">
+                        Please enter an email
+                    </div>
+                    <div class="invalid-feedback" *ngIf="registerForm.get('email')?.hasError('email')">
+                        Email is invalid
+                    </div>
+                </div>
+                <div class="input">
+                    <input 
+                    formControlName="password"
+                    [class.is-invalid]="registerForm.get('password')?.errors && registerForm.get('password')?.touched"
+                    class="form-control input1"
+                    [type]="changeType? 'password' : 'text'"
+                    placeholder="password">
+                    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('required')">
+                        Please enter a password
+                    </div>
+                    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('minlength')">
+                        Password must be at least 6 characters
+                    </div>
+                    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('maxlength')">
+                        Password must be at most 16 characters
+                    </div>
+                    <span class="eyeicon" (click)="viewPassword()"><i [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'"></i></span>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div class="check">
+                    <a href="#">smth should be here?</a>
+                </div>
+                <div class="button">
+                    <button [disabled]="!registerForm.valid" class="btn btn-primary">Sign up</button>
+                </div>
+                <div class="sign-in">
+                    <p> Already have an account?</p>
+                    <a (click)="login()"> Sign in</a>
+                </div>
+            </div>
+        </section>
+</form>

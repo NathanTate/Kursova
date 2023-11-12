@@ -22,6 +22,12 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("INTEGER");
+
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("BLOB");
 
@@ -29,6 +35,9 @@ namespace API.Data.Migrations
                         .HasColumnType("BLOB");
 
                     b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VerificationToken")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

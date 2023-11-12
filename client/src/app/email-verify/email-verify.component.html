@@ -1,0 +1,13 @@
+<div class="background"></div>
+<div class="section1">
+    <div class="content" *ngIf="isVerified">
+        <h1>Email has already been verified</h1>
+        <div class="what-line"> </div>
+        <p> You can go back to login</p>
+    </div>
+    <div class="content" *ngIf="!isVerified">
+        <h1>Email Verified Successfully</h1>
+        <div class="what-line"> </div>
+        <p>Now you can go back to login</p>
+    </div>
+</div>

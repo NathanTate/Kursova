@@ -1,0 +1,12 @@
+.login-ref
+{
+    text-decoration: none;
+    font-size: medium;
+    font-weight: bold;
+    color: #fff;
+    border: 1px solid;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgba(179, 179, 179, 0.3)
+}
