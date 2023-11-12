@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: 'contact', component: ContactComponent},
   {path: 'verify-email', component: EmailVerifyComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'reset', component: ResetPasswordComponent},
+  {path: 'forgot-password/reset', component: ResetPasswordComponent},
   {path: '**', component: HomeComponent, pathMatch: 'full'},
 ];
 

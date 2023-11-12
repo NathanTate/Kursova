@@ -121,7 +121,7 @@ public class AccountController : BaseApiController
 
     public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == resetPasswordDto.Token);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == resetPasswordDto.ResetToken);
 
         if(user == null) return BadRequest("User not found");
 

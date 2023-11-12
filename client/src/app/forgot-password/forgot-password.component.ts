@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
@@ -8,7 +9,7 @@ import { AccountService } from '../_services/account.service';
 })
 export class ForgotPasswordComponent implements OnInit{
   model: any = {};
-  isTokenInputVisible = false;
+  isContinueVisible = false;
 
   constructor(private accountService: AccountService) {}
 
@@ -17,7 +18,7 @@ export class ForgotPasswordComponent implements OnInit{
 
   sendEmail() {
     this.accountService.sentEmail(this.model).subscribe({
-      next: () => this.isTokenInputVisible = true
+      next: () => this.isContinueVisible = true
     })
   }
 }

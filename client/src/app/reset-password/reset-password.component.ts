@@ -9,7 +9,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit{
-  model: any = {};
   loginIsVisible: boolean = false;
   visible: boolean = true;
   changeType: boolean = true;
@@ -25,6 +24,7 @@ export class ResetPasswordComponent implements OnInit{
 
   initializeForm() {
     this.resetForm = this.fb.group({
+      resetToken: ['', Validators.required],
       password: ['', [Validators.required, 
         Validators.minLength(6), Validators.maxLength(16)]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]]
@@ -41,8 +41,9 @@ export class ResetPasswordComponent implements OnInit{
   }
 
   resetPassword() {
-    this.accountService.resetPassword(this.model).subscribe({
+    this.accountService.resetPassword(this.resetForm.value).subscribe({
       next: () => {
+        this.resetForm.reset()
         this.toastr.success("Password successfully changed")
         this.loginIsVisible = true
       }

@@ -5,7 +5,7 @@ namespace API.DTOs;
 public class ResetPasswordDto
 {
     [Required]
-    public string Token { get; set; }
+    public string ResetToken { get; set; }
 
     [Required]
     [StringLength(16, MinimumLength = 6)]

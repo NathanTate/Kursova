@@ -35,6 +35,7 @@ export class RegisterComponent implements OnInit{
   register() {
     this.accountService.register(this.registerForm.value).subscribe({
       next: () => {
+        this.registerForm.reset(),
         this.enableLogin.emit(true),
         this.toastr.success('Check your email for verification')
       }
