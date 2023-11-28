@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-color: black;
+    margin: 0; /* Optionally remove default body margin */
+}
+@import "~@ng-select/ng-select/themes/default.theme.css";

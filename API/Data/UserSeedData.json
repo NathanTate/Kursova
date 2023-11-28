@@ -1,0 +1,51 @@
+[
+  {
+    "Email": "natanhomych@gmail.com",
+    "UserName": "nathan",
+    "Role": "admin",
+    "IsEmailVerified": true,
+    "VerificationToken": null
+  },
+  {
+    "Email": "hunteplay@gmail.com",
+    "UserName": "ivan",
+    "Role": "teacher",
+    "IsEmailVerified": true,
+    "VerificationToken": null
+  },
+  {
+    "Email": "natanhomyc@gmail.com",
+    "UserName": "margo",
+    "Role": "student",
+    "IsEmailVerified": true,
+    "VerificationToken": null
+  },
+  {
+    "Email": "natanhomy@gmail.com",
+    "UserName": "anna",
+    "Role": "student",
+    "IsEmailVerified": true,
+    "VerificationToken": null
+  },
+  {
+    "Email": "natanhom@gmail.com",
+    "UserName": "johny sins",
+    "Role": "student",
+    "IsEmailVerified": true,
+    "VerificationToken": null
+  },
+  {
+    "Email": "natanh@gmail.com",
+    "UserName": "daniel",
+    "Role": "student",
+    "IsEmailVerified": true,
+    "VerificationToken": null
+  },
+  {
+    "Email": "natanl@gmail.com",
+    "UserName": "lara",
+    "Role": "student",
+    "IsEmailVerified": true,
+    "VerificationToken": null
+  }
+]

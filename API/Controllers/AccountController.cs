@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using API.Data;
 using API.DTOs;
@@ -7,7 +6,6 @@ using API.Entities;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +39,7 @@ public class AccountController : BaseApiController
             user.Email = registerDto.Email.ToLower();
             user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
             user.PasswordSalt = hmac.Key;
+            user.Role = UserRoles.student.ToString();
             user.IsEmailVerified = false;
             user.VerificationToken = CreateRandomToken();
 
@@ -53,6 +52,7 @@ public class AccountController : BaseApiController
         {
             Email = user.Email,
             Username = user.UserName,
+            Role = user.Role,
             Token = _tokenService.CreateToken(user)
         };
     }
@@ -81,6 +81,7 @@ public class AccountController : BaseApiController
         {
             Email = user.Email,
             Username = user.UserName,
+            Role = user.Role,
             Token = _tokenService.CreateToken(user)
         };
     }

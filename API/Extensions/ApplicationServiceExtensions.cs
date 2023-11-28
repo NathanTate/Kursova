@@ -15,7 +15,8 @@ public static class ApplicationServiceExtensions
             opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
         });
         services.AddCors();
-
+        
+        services.AddMemoryCache();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEmailSender, EmailSender>();

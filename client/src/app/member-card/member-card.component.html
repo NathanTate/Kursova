@@ -1,0 +1,23 @@
+<div class="card mb-4" *ngIf="member">
+    <div class="card-img-wrapper">
+        <img src="./assets/user.png" alt="{{member.userName}}" class="card-img-top">
+        <p class="card-text text-center">{{member.role}}</p>
+        <ul class="list-inline member-icons animate text-center" *ngIf="currentUser?.role == 'admin'">
+            <li class="list-inline-item">
+                <button (click)="deleteUser(member)" class="btn delete-btn btn-primary"><i class="fa fa-trash"></i> </button>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body-p-1">
+        <h6 class="card-title text-center mb-1">
+            <i class="fa fa-user "></i>
+            {{member.userName}}
+        </h6>
+        <div class="text-center" *ngIf="currentUser?.role == 'admin'">
+            <ng-select [(ngModel)]="updateRole.roleId">
+                <ng-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</ng-option>
+            </ng-select>
+            <button (click)="updateUsersRole(updateRole.roleId)" class="btn update-role-btn btn-primary">Update Role</button>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@ namespace API;
 
 public static class ClaimsPrincipalExtension
 {
-    public static string GetUsername(this ClaimsPrincipal user)
+    public static string GetEmail(this ClaimsPrincipal user)
     {
         return user.FindFirst(ClaimTypes.Name)?.Value;
     }

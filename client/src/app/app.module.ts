@@ -17,6 +17,9 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { EmailVerifyComponent } from './email-verify/email-verify.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { MemberCardComponent } from './member-card/member-card.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ContactComponent,
     EmailVerifyComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ManageUsersComponent,
+    MemberCardComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     SharedModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

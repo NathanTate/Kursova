@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit{
   @Output() enableLogin = new EventEmitter();
   visible: boolean = true;
   changeType: boolean = true;
+  isSubmitted: boolean = false;
   registerForm: FormGroup = new FormGroup({});
   validationErrors: string[] | undefined;
 
@@ -33,6 +34,7 @@ export class RegisterComponent implements OnInit{
   }
 
   register() {
+    this.isSubmitted = true;
     this.accountService.register(this.registerForm.value).subscribe({
       next: () => {
         this.registerForm.reset(),

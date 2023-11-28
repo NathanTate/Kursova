@@ -65,7 +65,7 @@
                     <a href="#">smth should be here?</a>
                 </div>
                 <div class="button">
-                    <button [disabled]="!registerForm.valid" class="btn btn-primary">Sign up</button>
+                    <button [disabled]="!registerForm.valid || isSubmitted" class="btn btn-primary">Sign up</button>
                 </div>
                 <div class="sign-in">
                     <p> Already have an account?</p>

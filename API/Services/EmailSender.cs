@@ -14,7 +14,7 @@ public class EmailSender : IEmailSender
         _mail = config.Value.Mail;
         _password = config.Value.Password;
     }
-    public Task SendEmailAsync(string email, string subject, string message)
+    public async Task SendEmailAsync(string email, string subject, string message)
     {
         var client = new SmtpClient("smtp.gmail.com", 587)
         {
@@ -32,6 +32,6 @@ public class EmailSender : IEmailSender
         };
         _message.To.Add(email);
 
-        return client.SendMailAsync(_message);
+         await client.SendMailAsync(_message);
     }
 }

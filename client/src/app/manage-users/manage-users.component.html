@@ -1,0 +1,8 @@
+<h1>Members:</h1>
+<div class="section">
+    <div class="row">
+        <div class="col-2" *ngFor="let member of members">
+            <app-member-card (userDeletedUpdated)="onUserDeletedUpdated()" [member]="member"></app-member-card>
+        </div>
+    </div>
+</div>
