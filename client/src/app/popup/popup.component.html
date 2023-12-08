@@ -1,0 +1,43 @@
+<form *ngIf="inputData.isAdd" [formGroup]="popupForm" (ngSubmit)="addNote()">
+<h1 mat-dialog-title>{{inputData.title}}</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+        <mat-error *ngIf="popupForm.get('title')?.hasError('required')">Enter the Title</mat-error>
+        <mat-error *ngIf="popupForm.get('title')?.hasError('minlength')">title should be at least 3 characters</mat-error>
+        <mat-error *ngIf="popupForm.get('title')?.hasError('maxlength')">title should be at most 16 characters</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+        <mat-error *ngIf="popupForm.get('description')?.hasError('required')">Enter the description</mat-error>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button [disabled]="!popupForm.valid" mtn-raised-button type="submit" class="btn btn-success">Add</button>
+    <button (click)="closePopup()" type="button" mat-raised-button class="btn btn-danger">Close</button>
+    <!-- <button mat-raised-button mat-dialog-close class="btn btn-success">Cancel</button> -->
+</div>
+</form>
+
+<form *ngIf="!inputData.isAdd" [formGroup]="popupForm" (ngSubmit)="updateNote()">
+    <h1 mat-dialog-title>{{inputData.title}}</h1>
+    <div mat-dialog-content>
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" required>
+            <mat-error *ngIf="popupForm.dirty && popupForm.get('title')?.hasError('required')">Enter the Title</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+            <mat-error>Enter description</mat-error>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button [disabled]="popupForm.invalid" mtn-raised-button type="submit" class="btn btn-success">Update</button>
+        <button (click)="closePopup()" type="button" mat-raised-button class="btn btn-danger">Close</button>
+        <!-- <button mat-raised-button mat-dialog-close class="btn btn-success">Cancel</button> -->
+    </div>
+    </form>

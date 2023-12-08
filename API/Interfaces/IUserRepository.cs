@@ -10,5 +10,4 @@ public interface IUserRepository
     void DeleteUser(AppUser user);
     Task<AppUser> GetUserByIdAsync(int id);
     Task<AppUser> GetUserByEmailAsync(string email);
-
 }

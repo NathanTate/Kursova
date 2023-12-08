@@ -1,27 +1,17 @@
 <div *ngIf="accountService.currentUser$ | async">
-<div class="background"></div>
-<div class="section1">
-    <div class="content">
-        <h1>Our Story</h1>
-        <div class="what-line"> </div>
-        <p>Founded in 2010, Your Dairy Website began as a passion project by a group of dairy enthusiasts who wanted to share their love for all things dairy. What started as a small blog has now grown into a thriving online community dedicated to the celebration of dairy products and the stories behind them.</p>
-    </div>
-        <div class="image-card-right">
-            <img src="https://w0.peakpx.com/wallpaper/266/1012/HD-wallpaper-street-night-city-neon-road-cars.jpg" alt="night tokio image">
+    <button class="btn btn-danger text-start">Your dream</button>
+    <div class="section">
+        <div class="row row-cols-5">
+            <div class="col">
+                <div (click)="addNote()" class="card mb-4">
+                  <i class="text-center add-icon fa-solid fa-circle-plus fa-8x"></i>
+                </div>     
+            </div>
+            <div class="col" *ngFor="let note of notes">
+                <app-note-card (onNoteDelete)="onNoteDeletedUpdated()" (openPopup)="editPopupToggle($event[0], $event[1], $event[2])" [note]="note"></app-note-card>
+            </div>
         </div>
-</div>
-
-<div class="background"></div>
-<div class="section2">
-    <div class="image-card-left">
-        <img src="https://w0.peakpx.com/wallpaper/184/596/HD-wallpaper-street-sunset-palm-trees-road-road-signs-cars.jpg" alt="our mission image">
     </div>
-    <div class="content">
-        <h1>Our Mission</h1>
-        <div class="what-line"> </div>
-        <p>At Your Dairy Website, our mission is simple: to educate, inspire, and connect dairy lovers from around the world. We believe in promoting the nutritional benefits of dairy, supporting sustainable and ethical practices in the dairy industry, and fostering a positive and inclusive community where everyone can share their love for milk, cheese, yogurt, and more.</p>
-    </div>
-</div>
 </div>
 
 

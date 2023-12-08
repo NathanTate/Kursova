@@ -1,59 +1,39 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using API.Data;
 using API.DTOs;
-using API.Entities;
 using API.Helpers;
 using API.Interfaces;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
 public class AccountController : BaseApiController
 {
-    private readonly DataContext _context;
+    private readonly IAccountRepository _accountRepository;
     private readonly ITokenService _tokenService;
-    private readonly IMapper _mapper;
-    private readonly IEmailSender _emailSender;
-
-    public AccountController(DataContext context, ITokenService tokenService, 
-        IMapper mapper, IEmailSender emailSender)
+    public AccountController(IAccountRepository accountRepository, ITokenService tokenService)
     {
-        _context = context;
+        _accountRepository = accountRepository;
         _tokenService = tokenService;
-        _mapper = mapper;
-        _emailSender = emailSender;
     }
 
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
-        if(await UserExists(registerDto.Email)) return BadRequest("Email is already taken");
+        if(await _accountRepository.UserExists(registerDto.Email)) return BadRequest("Email is already taken");
 
-        var user = _mapper.Map<AppUser>(registerDto);
+        var user = _accountRepository.Register(registerDto);
 
-        using var hmac = new HMACSHA512();
+        await _accountRepository.SaveAllAsync();
 
-            user.Email = registerDto.Email.ToLower();
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-            user.PasswordSalt = hmac.Key;
-            user.Role = UserRoles.student.ToString();
-            user.IsEmailVerified = false;
-            user.VerificationToken = CreateRandomToken();
-
-         _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        await SendVerificationEmail(user.Email, user.VerificationToken);
+        await _accountRepository.SendVerificationEmail(user.Email, user.VerificationToken);
 
         return new UserDto
         {
             Email = user.Email,
             Username = user.UserName,
             Role = user.Role,
-            Token = _tokenService.CreateToken(user)
+            Token = user.VerificationToken
         };
     }
 
@@ -61,17 +41,13 @@ public class AccountController : BaseApiController
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         if(loginDto.Email == null) return Unauthorized("Enter an email");
-
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
+        var user = await _accountRepository.GetUserByEmailAsync(loginDto.Email);
 
         if(user == null) return Unauthorized("Invalid email");
-
         if(user.IsEmailVerified == false) return BadRequest("Confirm your email first");
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
-
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
         for(int i =0; i < computedHash.Length; i++)
         {
             if(computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
@@ -90,14 +66,14 @@ public class AccountController : BaseApiController
 
     public async Task<IActionResult> VerifyEmail([FromQuery] VerificationParams verificationParams)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == verificationParams.Email.ToLower());
+        var user = await _accountRepository.GetUserByEmailAsync(verificationParams.Email);
         if(user == null) return BadRequest("User doesn't exist");
         if(user.VerificationToken != verificationParams.Token) return BadRequest("Invalid Token");
 
         user.IsEmailVerified = true;
         user.VerificationToken = null;
 
-        await _context.SaveChangesAsync();
+        await _accountRepository.SaveAllAsync();
 
         return Ok(new { message = "Email is verified" });
     }
@@ -105,15 +81,15 @@ public class AccountController : BaseApiController
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == forgotPasswordDto.Email.ToLower());
+        var user = await _accountRepository.GetUserByEmailAsync(forgotPasswordDto.Email);
 
         if(user == null) return BadRequest("User not found");
         if(user.IsEmailVerified == false) return BadRequest("Verification needed");
 
-        user.VerificationToken = CreateRandomToken();
-        await _context.SaveChangesAsync();
+        user.VerificationToken = _accountRepository.CreateRandomToken();
+        await _accountRepository.SaveAllAsync();
 
-        await SendVerificationPassword(user.Email, user.VerificationToken);
+        await _accountRepository.SendVerificationPassword(user.Email, user.VerificationToken);
 
         return Ok(new {message = "You may reset your password now"});
     }
@@ -122,7 +98,7 @@ public class AccountController : BaseApiController
 
     public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == resetPasswordDto.ResetToken);
+        var user = await _accountRepository.GetUserByTokenAsync(resetPasswordDto.ResetToken);
 
         if(user == null) return BadRequest("User not found");
 
@@ -132,40 +108,7 @@ public class AccountController : BaseApiController
         user.PasswordSalt = hmac.Key;
         user.VerificationToken = null;
 
-        await _context.SaveChangesAsync();
-
+        await _accountRepository.SaveAllAsync();
         return NoContent();
-    }
-
-    private async Task<bool> UserExists(string email)
-    {
-        return await _context.Users.AnyAsync(x => x.Email == email.ToLower());
-    }
-
-    private string CreateRandomToken()
-    {
-        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-    }
-
-    public async Task<ActionResult> SendVerificationEmail(string email, string verificationToken)
-    {
-        var receiver = email;
-        var subject = "Email Verification";
-        var message = $"Please click <a href=\"https://localhost:4200/verify-email?email={email}&token={verificationToken}\"> to verify email</a>";
-
-        await _emailSender.SendEmailAsync(receiver, subject, message);
-
-        return Ok();
-    }
-
-    public async Task<ActionResult> SendVerificationPassword(string email, string verificationToken)
-    {
-        var receiver = email;
-        var subject = "Password Verification";
-        var message = $"Enter the code to reset password {verificationToken}";
-
-        await _emailSender.SendEmailAsync(receiver, subject, message);
-
-        return Ok();
     }
 }

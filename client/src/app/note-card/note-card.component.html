@@ -1,0 +1,22 @@
+<div class="card mb-4" *ngIf="note">
+    <mat-menu #appMenu="matMenu">
+        <button mat-menu-item (click)="editNote(note.id)"><i class="fa fa-edit"></i>  Edit</button>
+        <button mat-menu-item (click)="deleteNote(note.id)"><i class="fa fa-trash"></i> Delete</button>
+    </mat-menu>
+    <h1 class="card-title mb-1 text-center">
+        {{note.title}}
+    </h1>
+
+    <div class="card-body-p-1 text-center">
+        <p>{{note.description}}</p>
+    </div>
+    <hr class="card-divider">
+    <div class="bottom-part">
+        <div class="button-group d-flex">
+        </div>
+        <div class="date-and-menu">
+            <p>{{note.created | date: "longDate"}}</p>
+            <i [matMenuTriggerFor]="appMenu" class="fa fa-ellipsis-h"></i>
+        </div>
+    </div>
+</div>

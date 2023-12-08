@@ -1,0 +1,38 @@
+  .card {
+    height: 400px; 
+    width: 100%;
+  }
+  
+  .card-title {
+    margin: 8px;
+  }
+  
+  .card-body-p-1 {
+    padding: 10px;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+    height: 100%; 
+  }
+  
+  .bottom-part {
+    margin-top: 10px;
+    height: 15%;
+  }
+
+  .card-divider {
+    width: 85%;
+    margin: auto;
+    border: 1px solid #000000; 
+  }
+
+  .date-and-menu {
+    padding: 0px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date-and-menu p {
+    margin-bottom: 0px;
+}

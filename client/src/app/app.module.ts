@@ -20,6 +20,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { MemberCardComponent } from './member-card/member-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { NoteCardComponent } from './note-card/note-card.component';
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ManageUsersComponent,
-    MemberCardComponent
+    MemberCardComponent,
+    NoteCardComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,

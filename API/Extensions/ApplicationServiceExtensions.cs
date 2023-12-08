@@ -18,8 +18,10 @@ public static class ApplicationServiceExtensions
         
         services.AddMemoryCache();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<IUserExtensions, UserExtensions>();
         services.Configure<EmailSenderSettings>(config.GetSection("EmailSenderSettings"));
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         

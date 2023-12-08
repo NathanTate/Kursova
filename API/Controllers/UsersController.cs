@@ -13,14 +13,12 @@ namespace API.Controllers;
 public class UsersController : BaseApiController
 {
     private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
-    private readonly ILogger<UsersController> _logger;
+    private readonly IUserExtensions _userExtensions;
     private readonly IMemoryCache _cache;
-    public UsersController(IUserRepository userRepository, IMapper mapper, ILogger<UsersController> logger, IMemoryCache cache)
+    public UsersController(IUserRepository userRepository, IUserExtensions userExtensions, IMemoryCache cache)
     {
         _userRepository = userRepository;
-        _mapper = mapper;
-        _logger = logger;
+        _userExtensions = userExtensions;
         _cache = cache;
     }
 
@@ -29,15 +27,12 @@ public class UsersController : BaseApiController
     {   IEnumerable<MemberDto> users;
         if(_cache.TryGetValue("users", out users))
         {
-            _logger.LogInformation("using cached data");
             return Ok(users);
         }
-
-        _logger.LogInformation("getting new users");
-        var currentUser = await _userRepository.GetUserByEmailAsync(User.GetEmail());
+        var currentUser = await _userRepository.GetUserByEmailAsync(_userExtensions.GetEmail(User));
         users = await _userRepository.GetMembersAsync(currentUser.Email);
 
-        _cache.Set("users", users, TimeSpan.FromMinutes(1));
+        _cache.Set("users", users, TimeSpan.FromSeconds(10));
         return Ok(users);
     }
 
@@ -76,7 +71,6 @@ public class UsersController : BaseApiController
         if(user == null) return NotFound();
 
         _userRepository.DeleteUser(user);
-        _logger.LogInformation("removed users from cache");
         _cache.Remove("users");
 
         if(await _userRepository.SaveAllAsync()) return Ok();
